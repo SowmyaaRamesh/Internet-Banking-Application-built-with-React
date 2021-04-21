@@ -81,7 +81,8 @@ body {
   height: 300px;
 }
 
-.services button {
+.homepage-btn {
+  text-decoration: none;
   background-color: #f29d52;
   border-radius: 3px;
   font-size: 16px;
@@ -94,7 +95,7 @@ body {
   cursor: pointer;
 }
 
-.services button:hover {
+.homepage-btn:hover {
   background-color: #da8c48;
 }
 .footer {

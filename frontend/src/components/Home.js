@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const Home = () => {
   return (
@@ -11,12 +12,27 @@ export const Home = () => {
       </div>
       <h1 className="service-header">Services offered</h1>
       <div className="services" id="services">
-        <button>Pin Change</button>
-        <button>Funds Transfer</button>
-        <button>View Balance</button>
-        <button>Account Statement</button>
-        <button>Manage Deposits</button>
-        <button>Insurance Policy</button>
+        <Link className="homepage-btn" to="">
+          Pin Change
+        </Link>
+        <Link className="homepage-btn" to="">
+          Funds Transfer
+        </Link>
+        <Link className="homepage-btn" to="">
+          View Balance
+        </Link>
+
+        <Link className="homepage-btn" to="/viewstatement">
+          Account Statement
+        </Link>
+
+        <Link className="homepage-btn" to="/deposits">
+          Manage Deposits
+        </Link>
+
+        <Link className="homepage-btn" to="">
+          Insurance Policy
+        </Link>
       </div>
       <div className="footer">
         <p>Copyright &copy; 2020. All rights reserved.</p>
