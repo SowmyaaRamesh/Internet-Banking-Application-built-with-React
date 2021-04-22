@@ -2,7 +2,7 @@
 
 ---
 
-The project is built with the following:-
+The project is built with the following:
 
 - React - frontend
 - Nodejs - backend
