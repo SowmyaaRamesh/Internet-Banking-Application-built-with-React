@@ -34,8 +34,6 @@ export const OpenDeposit = () => {
 
   const submitForm = (e) => {
     e.preventDefault();
-
-    // console.log("posting:", data);
     axios
       .post("http://localhost:5000/opendeposit", {
         data: details,
@@ -44,7 +42,6 @@ export const OpenDeposit = () => {
         console.log(err);
       });
 
-    // console.log(details);
     setStatus("Your request has been received. It will be processed shortly.");
     setDetails({
       scheme: "RDP",
@@ -55,7 +52,6 @@ export const OpenDeposit = () => {
       account: "",
       openDate: "",
     });
-    // getStatus();
   };
 
   const checkAccountBalance = () => {
