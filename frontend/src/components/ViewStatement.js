@@ -9,9 +9,9 @@ export const ViewStatement = () => {
 
   const getStatement = async () => {
     const res = await axios.get("http://localhost:5000/statement");
-    console.log("data recv from db", res.data);
+    // console.log("data recv from db", res.data);
     setStatements(res.data);
-    console.log("stmt:", statements);
+    // console.log("stmt:", statements);
   };
 
   const handleClick = () => {
@@ -85,7 +85,7 @@ export const ViewStatement = () => {
                 <td>{stmt.transaction_id}</td>
                 <td>{stmt.date.slice(0, 10)}</td>
                 <td>{stmt.time}</td>
-                <td>{stmt.amount}</td>
+                <td>₹{stmt.amount}</td>
                 <td>{stmt.description}</td>
               </tr>
             ))}

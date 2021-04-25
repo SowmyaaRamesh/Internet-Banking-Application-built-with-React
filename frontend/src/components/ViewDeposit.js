@@ -17,16 +17,16 @@ export const ViewDeposit = ({ deposits }) => {
           </tr>
         </thead>
         <tbody>
-          {deposits.map((deposit) => (
-            <tr>
+          {deposits.map((deposit, i) => (
+            <tr key={i}>
               <td>{deposit.deposit_number}</td>
               <td>{deposit.scheme}</td>
               <td>{deposit.open_date.slice(0, 10)}</td>
-              <td>{deposit.deposit_amount}</td>
+              <td>₹{deposit.deposit_amount}</td>
               <td>{deposit.maturity_date.slice(0, 10)}</td>
-              <td>{deposit.maturity_amount}</td>
+              <td>₹{deposit.maturity_amount}</td>
               <td>{deposit.interest_rate}</td>
-              <td>{deposit.balance}</td>
+              <td>₹{deposit.balance}</td>
             </tr>
           ))}
         </tbody>
