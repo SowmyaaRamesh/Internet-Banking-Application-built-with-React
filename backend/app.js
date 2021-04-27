@@ -8,6 +8,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store");
+  next();
+});
 
 //SQL connection
 const con = mysql.createConnection({
@@ -25,15 +29,268 @@ con.connect(function (err) {
   console.log("connected as id " + con.threadId);
 });
 
-let statementData;
-let userId = "elisa";
-let openDepositStatus;
+let userID;
+let loginData;
 
-app.post("/statement", (req, res) => {
-  statementData = req.body.data;
+app.post("/login", (req, res) => {
+  loginData = req.body.data;
+  let query =
+    " select user_id,pin from customer where user_id='" +
+    loginData.user +
+    "' and pin = '" +
+    loginData.pass +
+    "';";
+  userID = loginData.user;
+  console.log(query);
+
+  con.query(query, function (error, results) {
+    if (error) throw error;
+    console.log(results);
+    res.send(results);
+  });
 });
 
-app.get("/statement", (req, res) => {
+// app.get("/login", (req, res) => {
+//   let query =
+//     " select user_id,pin from customer where user_id='" +
+//     loginData.user +
+//     "' and pin = '" +
+//     loginData.pass +
+//     "';";
+//   userID = loginData.user;
+//   console.log(query);
+
+//   con.query(query, function (error, results) {
+//     if (error) throw error;
+//     console.log(results);
+//     res.send(results);
+//   });
+// });
+
+let accountsData;
+
+app.post("/accounts", (req, res) => {
+  accountsData = req.body.data;
+});
+
+app.get("/accounts", (req, res) => {
+  let query =
+    " select account_number from accounts where user_id='" + userID + "';";
+  console.log(query);
+
+  con.query(query, function (error, results) {
+    if (error) throw error;
+    console.log(results);
+    res.send(results);
+  });
+});
+
+let changepindata;
+app.post("/ChangePIN", (req, res) => {
+  changepindata = req.body.data;
+  let query =
+    " UPDATE cards SET pin=" +
+    changepindata.npin +
+    " WHERE account_number = '" +
+    changepindata.acc +
+    "';";
+
+  console.log(query);
+
+  con.query(query, function (error, results) {
+    if (error) throw error;
+    console.log(results);
+    res.send(results);
+  });
+});
+
+// app.get("/ChangePIN", (req, res) => {
+
+// });
+
+let validateData;
+
+app.post("/validateAcc", (req, res) => {
+  validateData = req.body.data;
+  let query =
+    " select * from accounts where account_number='" +
+    validateData.acc1 +
+    "' OR account_number = '" +
+    validateData.acc2 +
+    "';";
+
+  console.log(query);
+
+  con.query(query, function (error, results) {
+    if (error) throw error;
+    console.log(results);
+    res.send(results);
+  });
+});
+
+// app.get("/validateAcc", (req, res) => {
+
+// });
+
+let balanceData;
+
+app.post("/checkBalance", (req, res) => {
+  balanceData = req.body.data;
+  let query =
+    " select balance from accounts where account_number='" +
+    balanceData.acc1 +
+    "';";
+
+  console.log(query);
+
+  con.query(query, function (error, results) {
+    if (error) throw error;
+    console.log(results);
+    res.send(results);
+  });
+});
+
+// app.get("/checkBalance", (req, res) => {
+//   let query =
+//     " select balance from accounts where account_number='" +
+//     balanceData.acc1 +
+//     "';";
+
+//   console.log(query);
+
+//   con.query(query, function (error, results) {
+//     if (error) throw error;
+//     console.log(results);
+//     res.send(results);
+//   });
+// });
+
+let transferData;
+
+app.post("/TransferMoney", (req, res) => {
+  transferData = req.body.data;
+  let query1 =
+    " UPDATE accounts SET balance=balance - " +
+    transferData.amm +
+    " where account_number='" +
+    transferData.acc1 +
+    "';";
+  let query2 =
+    " UPDATE accounts SET balance=balance + " +
+    transferData.amm +
+    " where account_number='" +
+    transferData.acc2 +
+    "';";
+
+  let query3 =
+    "SELECT transaction_id from transactions ORDER BY transaction_id DESC limit 1;";
+
+  console.log(query1);
+
+  con.query(query1, function (error, results) {
+    if (error) throw error;
+    console.log(results);
+  });
+  console.log(query2);
+
+  console.log(query3);
+  con.query(query3, function (error, results) {
+    if (error) throw error;
+    console.log(results);
+    let n = parseInt(results[0].transaction_id) + 1;
+    console.log(n);
+    let query4 =
+      "INSERT INTO bankdb.transactions (transaction_id, account_number, amount, date, time, description) VALUES ('" +
+      n +
+      "','" +
+      transferData.acc1 +
+      "','" +
+      transferData.amm +
+      "',CURDATE(),CURRENT_TIMESTAMP(),'sent to " +
+      transferData.acc2 +
+      "');";
+    con.query(query4, function (error, results) {
+      if (error) throw error;
+      console.log(results);
+    });
+    n = n + 1;
+    let query5 =
+      "INSERT INTO bankdb.transactions (transaction_id, account_number, amount, date, time, description) VALUES ('" +
+      n +
+      "','" +
+      transferData.acc2 +
+      "','" +
+      transferData.amm +
+      "',CURDATE(),CURRENT_TIMESTAMP(),'received from " +
+      transferData.acc1 +
+      "');";
+    con.query(query5, function (error, results) {
+      if (error) throw error;
+      console.log(results);
+    });
+  });
+  con.query(query2, function (error, results) {
+    if (error) throw error;
+    console.log(results);
+    res.send(results);
+  });
+});
+
+// app.get("/TransferMoney", (req, res) => {
+
+// });
+
+app.get("/logout", (req, res) => {
+  userID = "";
+  res.send("Success");
+});
+
+app.listen(5000, (req, res) => {
+  console.log("Server listening on port 5000");
+});
+
+//subhiksha
+
+let balData;
+
+app.post("/balance", (req, res) => {
+  balData = req.body.data;
+  let query =
+    "SELECT * FROM accounts WHERE account_number = " + balData.acc + ";";
+
+  con.query(query, function (error, results) {
+    if (error) throw error;
+    console.log(results);
+    res.send(results);
+  });
+});
+
+// app.get("/balance", (req, res) => {
+
+// });
+
+let insuranceData;
+
+app.post("/insurance", (req, res) => {
+  insuranceData = req.body.data;
+});
+
+app.get("/insurance", (req, res) => {
+  let query = "SELECT * FROM insurance WHERE user_id = '" + userID + "';";
+
+  console.log(query);
+  con.query(query, function (error, results) {
+    if (error) throw error;
+    console.log(results);
+    res.send(results);
+  });
+});
+
+//Sowmya's part
+
+let statementData;
+app.post("/statement", (req, res) => {
+  statementData = req.body.data;
   let query =
     "SELECT * FROM transactions WHERE account_number = " +
     statementData.acc +
@@ -43,21 +300,26 @@ app.get("/statement", (req, res) => {
     statementData.to +
     "';";
 
-  // console.log(query);
+  console.log(query);
 
   con.query(query, function (error, results) {
     if (error) throw error;
-    // console.log(results);
+    console.log(results);
     res.send(results);
   });
 });
 
-app.get("/viewdeposits", (req, res) => {
-  let query = "SELECT * FROM deposits WHERE user_id = '" + userId + "';";
+// app.get("/statement", (req, res) => {
 
-  // console.log(query);
+// });
+
+app.get("/viewdeposits", (req, res) => {
+  let query = "SELECT * FROM deposits WHERE user_id = '" + userID + "';";
+
+  console.log(query);
   con.query(query, function (error, results) {
     if (error) throw error;
+    console.log(results);
     res.send(results);
   });
 });
@@ -112,7 +374,7 @@ app.post("/opendeposit", (req, res) => {
     // values.push(maturity_amount);
     // values.push(interest_rate);
     // values.push(parseFloat(depositDetails.amount));
-    // values.push(userId);
+    // values.push(userID);
 
     // console.log(values);
 
@@ -136,7 +398,7 @@ app.post("/opendeposit", (req, res) => {
       "','" +
       depositDetails.amount +
       "','" +
-      userId +
+      userID +
       "')";
     // console.log(query);
 
@@ -212,15 +474,11 @@ app.post("/opendeposit", (req, res) => {
 app.get("/chooseaccount", (req, res) => {
   let query =
     " select account_number,balance from accounts where user_id='" +
-    userId +
+    userID +
     "';";
 
   con.query(query, function (error, results) {
     if (error) throw error;
     res.send(results);
   });
-});
-
-app.listen(5000, (req, res) => {
-  console.log("Server listening on port 5000");
 });
