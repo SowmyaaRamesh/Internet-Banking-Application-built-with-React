@@ -80,8 +80,8 @@ export const ViewStatement = () => {
             </tr>
           </thead>
           <tbody>
-            {statements.map((stmt) => (
-              <tr>
+            {statements.map((stmt, i) => (
+              <tr key={i}>
                 <td>{stmt.transaction_id}</td>
                 <td>{stmt.date.slice(0, 10)}</td>
                 <td>{stmt.time}</td>

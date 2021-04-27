@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import { Deposit } from "./Deposit";
 
 export const OpenDeposit = () => {
   const [details, setDetails] = useState({
