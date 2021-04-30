@@ -1,10 +1,11 @@
 import React from "react";
+import bank from '../img/bank.png';
 
 export const Home = () => {
   return (
-    <div>
+    <div className='home'>
       <div className="header">
-        <h1>Barclays Bank</h1>
+        <h1><img id='logo' src={bank} alt='logo' width='50px' height='50px' />Barclays Bank</h1>
         <h3>Bank Securely 24x7</h3>
       </div>
       <div className="about" id="about">

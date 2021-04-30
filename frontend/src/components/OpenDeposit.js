@@ -69,13 +69,12 @@ export const OpenDeposit = () => {
     <div>
       <div className="open-deposit-form">
         <p>{status}</p>
-        <h1>Request for New Deposit</h1>
         <form>
-          <label htmlFor="name">Name of the depsitor</label>
           <input
             type="text"
             name="name"
             id="name"
+            placeholder="Name"
             onChange={(e) => {
               setDetails((prevState) => ({
                 ...prevState,
@@ -84,11 +83,12 @@ export const OpenDeposit = () => {
             }}
             value={details.name}
           />
-          <label htmlFor="amount">Amount of Deposit</label>
+          <br />
           <input
             type="text"
             name="amount"
             id="amount"
+            placeholder="Amount"
             onChange={(e) => {
               setDetails((prevState) => ({
                 ...prevState,
@@ -98,8 +98,7 @@ export const OpenDeposit = () => {
             onBlur={checkAccountBalance}
             value={details.amount}
           />
-
-          <label htmlFor="scheme">Scheme Code</label>
+          <br />
           <select
             name="scheme"
             id="scheme"
@@ -110,14 +109,17 @@ export const OpenDeposit = () => {
               }));
             }}
           >
+            <option value="" defaultChecked>
+              -- Scheme Code --
+            </option>
             <option value="RDP">RDP</option>
             <option value="SDR">SDR</option>
             <option value="RDTAX">RDTAX</option>
           </select>
-          <label htmlFor="tenure">Tenure of Deposit</label>
+          <br />
           <input
             type="text"
-            placeholder="months"
+            placeholder="Tenure (months)"
             onChange={(e) => {
               setDetails((prevState) => ({
                 ...prevState,
@@ -142,7 +144,7 @@ export const OpenDeposit = () => {
               }
             }}
           />
-          <label htmlFor="account">Pay from</label>
+          <br />
           <select
             name="account"
             id="account"
@@ -156,7 +158,9 @@ export const OpenDeposit = () => {
           >
             {}
             <option hidden value="default">
-              {balanceAvailable ? "select account" : "Insufficient Funds"}
+              {balanceAvailable
+                ? "-- select account --"
+                : "-- Insufficient Funds --"}
             </option>
             {savingsAccounts.map(
               (acc, i) =>
@@ -167,9 +171,15 @@ export const OpenDeposit = () => {
                 )
             )}
           </select>
-
-          <label htmlFor="maturityDate">Maturity Date</label>
-          <p>{details.maturityDate}</p>
+          <br />
+          <input
+            type="text"
+            value={details.maturityDate}
+            readOnly
+            placeholder="Maturity Date"
+            title="Autofill upon entering tenure"
+          />
+          <br />
           <input type="submit" value="Submit" onClick={submitForm} />
         </form>
       </div>

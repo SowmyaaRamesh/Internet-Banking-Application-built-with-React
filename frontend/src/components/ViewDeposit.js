@@ -17,7 +17,7 @@ export const ViewDeposit = ({ deposits }) => {
           </tr>
         </thead>
         <tbody>
-          {deposits.map((deposit, i) => (
+          {deposits.length && deposits.map((deposit, i) => (
             <tr key={i}>
               <td>{deposit.deposit_number}</td>
               <td>{deposit.scheme}</td>

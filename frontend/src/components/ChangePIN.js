@@ -75,7 +75,7 @@ const ChangePIN = () => {
         </select>
         <br />
         <input
-          type="number"
+          type="password"
           autoComplete="off"
           placeholder="New PIN"
           id="npin"
@@ -85,7 +85,7 @@ const ChangePIN = () => {
         />{" "}
         <br />
         <input
-          type="number"
+          type="password"
           autoComplete="off"
           placeholder="Confirm PIN"
           id="cpin"

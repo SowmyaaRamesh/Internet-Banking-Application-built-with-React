@@ -39,9 +39,8 @@ export const DepositCalculator = () => {
 
   return (
     <div>
-      <h1>Calculate returns on your deposits to make the right choice!</h1>
+      <h3>Calculate returns on your deposits to make the right choice!</h3>
       <form className="calculate-deposit-form">
-        <label htmlFor="scheme">Scheme</label>
         <select
           name="scheme"
           id="scheme"
@@ -53,18 +52,18 @@ export const DepositCalculator = () => {
           }}
           value={calcDetails.scheme}
         >
-          <option hidden value="default">
-            --select scheme--
-          </option>
+          <option value="default">--select scheme--</option>
           <option value="RDP">RDP</option>
           <option value="SDR">SDR</option>
           <option value="RDTAX">RDTAX</option>
         </select>
-        <label htmlFor="amount">Amount of deposit</label>
+        <br />
+
         <input
           type="text"
           name="amount"
           id="amount"
+          placeholder="Amount"
           onChange={(e) => {
             setCalcDetails((prevState) => ({
               ...prevState,
@@ -73,10 +72,11 @@ export const DepositCalculator = () => {
           }}
           value={calcDetails.amount}
         />
-        <label htmlFor="tenure">Tenure</label>
+        <br />
+
         <input
           type="text"
-          placeholder="months"
+          placeholder="Tenure (months)"
           onChange={(e) => {
             setCalcDetails((prevState) => ({
               ...prevState,
@@ -85,8 +85,9 @@ export const DepositCalculator = () => {
           }}
           value={calcDetails.tenure}
         />
+        <br />
         {showMaturityAmount && !isNaN(calcDetails.maturityAmount) && (
-          <div>
+          <div className="maturity-res">
             <label htmlFor="maturity-amount">Maturity Amount</label>
             <p>₹{calcDetails.maturityAmount}</p>
           </div>

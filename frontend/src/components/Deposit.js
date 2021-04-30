@@ -18,9 +18,9 @@ export const Deposit = () => {
   };
 
   return (
-    <div>
+    <div className='deposits-home'>
       <div className="deposit-buttons">
-        <button
+        <button className='left-most'
           onClick={() => {
             setShowView(!showView);
             setShowOpen(false);
@@ -39,7 +39,7 @@ export const Deposit = () => {
         >
           Open Deposits
         </button>
-        <button
+        <button className='right-most' 
           onClick={() => {
             setShowView(false);
             setShowOpen(false);
