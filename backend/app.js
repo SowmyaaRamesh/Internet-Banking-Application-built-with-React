@@ -50,23 +50,6 @@ app.post("/login", (req, res) => {
   });
 });
 
-// app.get("/login", (req, res) => {
-//   let query =
-//     " select user_id,pin from customer where user_id='" +
-//     loginData.user +
-//     "' and pin = '" +
-//     loginData.pass +
-//     "';";
-//   userID = loginData.user;
-//   console.log(query);
-
-//   con.query(query, function (error, results) {
-//     if (error) throw error;
-//     console.log(results);
-//     res.send(results);
-//   });
-// });
-
 let accountsData;
 
 app.post("/accounts", (req, res) => {
@@ -104,10 +87,6 @@ app.post("/ChangePIN", (req, res) => {
   });
 });
 
-// app.get("/ChangePIN", (req, res) => {
-
-// });
-
 let validateData;
 
 app.post("/validateAcc", (req, res) => {
@@ -128,10 +107,6 @@ app.post("/validateAcc", (req, res) => {
   });
 });
 
-// app.get("/validateAcc", (req, res) => {
-
-// });
-
 let balanceData;
 
 app.post("/checkBalance", (req, res) => {
@@ -149,21 +124,6 @@ app.post("/checkBalance", (req, res) => {
     res.send(results);
   });
 });
-
-// app.get("/checkBalance", (req, res) => {
-//   let query =
-//     " select balance from accounts where account_number='" +
-//     balanceData.acc1 +
-//     "';";
-
-//   console.log(query);
-
-//   con.query(query, function (error, results) {
-//     if (error) throw error;
-//     console.log(results);
-//     res.send(results);
-//   });
-// });
 
 let transferData;
 
@@ -236,10 +196,6 @@ app.post("/TransferMoney", (req, res) => {
   });
 });
 
-// app.get("/TransferMoney", (req, res) => {
-
-// });
-
 app.get("/logout", (req, res) => {
   userID = "";
   res.send("Success");
@@ -248,8 +204,6 @@ app.get("/logout", (req, res) => {
 app.listen(5000, (req, res) => {
   console.log("Server listening on port 5000");
 });
-
-//subhiksha
 
 let balData;
 
