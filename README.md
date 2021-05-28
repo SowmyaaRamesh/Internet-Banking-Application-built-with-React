@@ -6,7 +6,7 @@ The project is built with the following:
 
 - React - frontend
 - Node.js - backend
-- MySSQL - Database
+- MySQL - Database
 
 ## Features implemented
 
